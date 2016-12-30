@@ -1,0 +1,31 @@
+{
+    "name": "icanhazstring/tempa-php",
+    "description": "Template file parsing library",
+    "type": "library",
+    "require": {
+        "symfony/console": "^3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "icanhazstring",
+            "email": "blubb0r05+github@gmail.com"
+        }
+    ],
+    "bin": [
+        "bin/tempa"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Tempa\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tempa\\": "test/Tempa/"
+        }
+    }
+}
