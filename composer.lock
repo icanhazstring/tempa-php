@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1a24df75ee8d1fe1693dbefbfd6944a",
+    "content-hash": "59403ae1838ba8d8b204f7127ca9f27e",
     "packages": [
         {
             "name": "psr/log",
@@ -234,6 +234,62 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "adlawson/vfs",
+            "version": "0.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adlawson/php-vfs.git",
+                "reference": "e955034419d6a8f92c9a8ea2e626eeed96b41095"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/e955034419d6a8f92c9a8ea2e626eeed96b41095",
+                "reference": "e955034419d6a8f92c9a8ea2e626eeed96b41095",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "psr/log": "^1.0"
+            },
+            "require-dev": {
+                "adlawson/timezone": "^1.0",
+                "fabpot/php-cs-fixer": "^1.9",
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vfs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Lawson",
+                    "homepage": "http://adlawson.com"
+                }
+            ],
+            "description": "Virtual file system",
+            "homepage": "https://github.com/adlawson/php-vfs",
+            "keywords": [
+                "dir",
+                "directory",
+                "file",
+                "fs",
+                "read",
+                "stream",
+                "system",
+                "virtual",
+                "wrapper",
+                "write"
+            ],
+            "time": "2016-02-20T12:46:01+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.0.5",
