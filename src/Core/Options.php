@@ -10,9 +10,9 @@ namespace Tempa\Core;
  * @package Core
  * @author  icanhazstring <blubb0r05@gmail.com>
  *
- * @property string prefix Placeholder prefix
- * @property string suffix Placeholder suffix
- * @property array fileEndings Array containing all valid file endings
+ * @property string prefix         Placeholder prefix
+ * @property string suffix         Placeholder suffix
+ * @property array  fileExtensions Array containing all valid file endings
  */
 class Options extends \ArrayObject
 {

@@ -2,6 +2,7 @@
 
 namespace Tempa\Core;
 
+use Tempa\Core\Exception\SubstituteException;
 use Tempa\Core\Scan\Result;
 use Tempa\Core\Scan\ResultContainer;
 
@@ -19,18 +20,61 @@ class Processor
     private $options;
     private $pattern;
 
+    /**
+     * Processor constructor.
+     *
+     * @param Options $options
+     */
     public function __construct(Options $options)
     {
         $this->options = $options;
 
-        $this->pattern =
-            '/'
-            . preg_quote($this->options->prefix)
-            . '(?<name>[^'
-            . preg_quote($this->options->suffix)
-            . ']+)'
-            . preg_quote($this->options->suffix)
-            . '/';
+        $this->pattern = $this->buildPattern();
+    }
+
+    /**
+     * Build a given pattern.
+     * This is used to scan or replace a certain substitute
+     *
+     * @param string $name Substitute name to replace
+     *
+     * @return string
+     */
+    public function buildPattern($name = null)
+    {
+        $patternPrefix = '/' . preg_quote($this->options->prefix);
+        $patternSuffix = preg_quote($this->options->suffix) . '/';
+
+        return $patternPrefix . ($name ?: '(?<name>[^' . preg_quote($this->options->suffix) . ']+)') . $patternSuffix;
+    }
+
+    /**
+     * @param \SplFileObject $file
+     * @param array          $substitutionMap
+     *
+     * @return void
+     */
+    public function substitute(\SplFileObject $file, array $substitutionMap)
+    {
+        if (!in_array($file->getExtension(), $this->options->fileExtensions)) {
+            return;
+        }
+
+        $scanResult = $this->scan($file);
+
+        $targetPath = rtrim($file->getPathname(), '.' . $file->getExtension());
+        $fileContent = file_get_contents($file->getPathname());
+
+        foreach ($scanResult as $substitute) {
+            if (!isset($substitutionMap[$substitute->name])) {
+                throw SubstituteException::missingSubstituteMapping($substitute->name);
+            }
+
+            $pattern = $this->buildPattern($substitute->name);
+            $fileContent = preg_replace($pattern, $substitutionMap[$substitute->name], $fileContent);
+        }
+
+        file_put_contents($targetPath, $fileContent);
     }
 
     /**
@@ -42,7 +86,7 @@ class Processor
      */
     public function scan(\SplFileObject $file)
     {
-        if (!in_array($file->getExtension(), $this->options->fileEndings)) {
+        if (!in_array($file->getExtension(), $this->options->fileExtensions)) {
             return null;
         }
 
@@ -61,9 +105,5 @@ class Processor
         }
 
         return $result;
-    }
-
-    public function substitute(ResultContainer $resultContainer)
-    {
     }
 }

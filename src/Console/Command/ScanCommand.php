@@ -51,7 +51,7 @@ EOT
 
         $config = file_get_contents($configPath);
         $options = new Options(json_decode($config, true));
-        $iterator = new FileIterator($scanPath, $options->fileEndings);
+        $iterator = new FileIterator($scanPath, $options->fileExtensions);
 
         /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
         $result = $iterator->iterate();
