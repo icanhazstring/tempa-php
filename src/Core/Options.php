@@ -16,13 +16,11 @@ namespace Tempa\Core;
  */
 class Options extends \ArrayObject
 {
-
     /**
      * {@inheritdoc}
      */
-    public function __construct($input = null, $flags = self::ARRAY_AS_PROPS, $iterator_class = "ArrayIterator")
+    public function __construct($input = [], $flags = self::ARRAY_AS_PROPS, $iterator_class = "ArrayIterator")
     {
         parent::__construct($input, $flags, $iterator_class);
     }
-
 }

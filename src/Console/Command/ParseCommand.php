@@ -2,20 +2,15 @@
 
 namespace Tempa\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ParseCommand extends Command
+class ParseCommand extends AbstractCommand
 {
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
-        $this->addArgument('dir', InputArgument::REQUIRED, 'Path to directory to be parsed');
+        parent::configure();
         $this->setName('file:parse')
              ->setDescription('Parse source directory for templates files replacing placeholders')
              ->setHelp(

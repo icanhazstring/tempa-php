@@ -7,8 +7,15 @@ use Vfs\FileSystem;
 use Vfs\Node\Directory;
 use Vfs\Node\File;
 
+/**
+ * FileIteratorTest
+ *
+ * @package Tempa\Instrument\FileSystem
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class FileIteratorTest extends \PHPUnit_Framework_TestCase
 {
+
     /** @var FileSystem */
     protected static $fileSystem;
 
@@ -29,8 +36,8 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyDirectory_ShouldReturnEmptyResult()
     {
-        $iterator = new FileIterator('vfs://', new Options([]));
-        self::assertEmpty(iterator_to_array($iterator->walk()));
+        $iterator = new FileIterator('vfs://', []);
+        self::assertEmpty(iterator_to_array($iterator->iterate()));
     }
 
     /**
@@ -40,11 +47,9 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     {
         self::$fileSystem->get('/')->add('test.php.dist', new File());
 
-        $iterator = new FileIterator('vfs://', new Options([
-            'fileEndings' => ['dist']
-        ]));
+        $iterator = new FileIterator('vfs://', ['dist']);
 
-        $result = iterator_to_array($iterator->walk());
+        $result = iterator_to_array($iterator->iterate());
         self::assertNotEmpty($result);
         self::assertArrayHasKey('vfs://test.php.dist', $result);
 
@@ -52,19 +57,43 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Multiple file with different endings should be
+     * in iterated result as well.
+     *
+     * @param $previousResult
+     *
      * @depends testSingleFileWithProperFileEnding_ShouldReturnArrayWithCorrectPath
      */
     public function testMultipleFilesRecursive_ShouldReturnArrayWithCorrectPaths($previousResult)
     {
         self::$fileSystem->get('/')->add('test2.php.skel', new File());
 
-        $iterator = new FileIterator('vfs://', new Options([
-            'fileEndings' => ['dist', 'skel']
-        ]));
-        $result = iterator_to_array($iterator->walk());
+        $iterator = new FileIterator('vfs://', ['dist', 'skel']);
+        $result = iterator_to_array($iterator->iterate());
 
         self::assertCount(2, $result);
-        self::assertArrayHasKey($previousResult, $result);
         self::assertArrayHasKey('vfs://test2.php.skel', $result);
+
+        return [
+            $previousResult,
+            'vfs://test2.php.skel'
+        ];
+    }
+
+    /**
+     * @param $previousResult
+     *
+     * @depends testMultipleFilesRecursive_ShouldReturnArrayWithCorrectPaths
+     */
+    public function testRecursiveFiles_ShouldReturnArrayWithCorrectPaths($previousResult)
+    {
+        $dir = new Directory(['test3.php.dist' => new File()]);
+        self::$fileSystem->get('/')->add('sub', $dir);
+
+        $iterator = new FileIterator('vfs://', ['dist', 'skel']);
+        $result = iterator_to_array($iterator->iterate());
+
+        self::assertCount(3, $result);
+        self::assertArrayHasKey('vfs://sub/test3.php.dist', $result);
     }
 }

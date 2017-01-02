@@ -1,0 +1,8 @@
+{
+  "fileEndings": [
+    "dist",
+    "skel"
+  ],
+  "prefix": "{$",
+  "suffix": "}"
+}

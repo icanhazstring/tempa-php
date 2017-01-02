@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use Tempa\Console\Command\ScanCommand;
 use Tempa\Console\Command\ParseCommand;
 use Symfony\Component\Console\Application;
 
@@ -23,5 +24,6 @@ if (!class_exists('Symfony\Component\Console\Application')) {
 }
 
 $app = new Application();
+$app->add(new ScanCommand());
 $app->add(new ParseCommand());
 $app->run();

@@ -1,26 +1,33 @@
 <?php
 
-
 namespace Tempa\Instrument\FileSystem;
-
 
 use Tempa\Core\Options;
 
+/**
+ * FileIterator
+ *
+ * This is used to filter out template files
+ * from a given root directory.
+ *
+ * @package Tempa\Instrument\FileSystem
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class FileIterator
 {
     private $rootDirectory;
-    private $options;
+    private $fileEndings;
 
     /**
      * FileIterator constructor.
      *
-     * @param string  $rootDirectory Path to root directory
-     * @param Options $options       Options array
+     * @param string $rootDirectory Path to root directory
+     * @param array  $fileEndings   File endings settings
      */
-    public function __construct($rootDirectory, Options $options)
+    public function __construct($rootDirectory, array $fileEndings)
     {
         $this->rootDirectory = $rootDirectory;
-        $this->options = $options;
+        $this->fileEndings = $fileEndings;
     }
 
     /**
@@ -28,7 +35,7 @@ class FileIterator
      *
      * @return \CallbackFilterIterator
      */
-    public function walk()
+    public function iterate()
     {
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
@@ -45,11 +52,11 @@ class FileIterator
     public function getFilter()
     {
         $rootDirectory = $this->rootDirectory;
-        $options = $this->options;
+        $fileEndings = $this->fileEndings;
 
-        return function (\SplFileInfo $file) use ($rootDirectory, $options) {
+        return function (\SplFileInfo $file) use ($rootDirectory, $fileEndings) {
 
-            if (!in_array($file->getExtension(), $options->fileEndings)) {
+            if (!in_array($file->getExtension(), $fileEndings)) {
                 return false;
             }
 
