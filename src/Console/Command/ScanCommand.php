@@ -5,7 +5,6 @@ namespace Tempa\Console\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tempa\Console\Output\ScanOutput;
 use Tempa\Core\Options;
 use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;

@@ -2,7 +2,7 @@
 <?php
 
 use Tempa\Console\Command\ScanCommand;
-use Tempa\Console\Command\ParseCommand;
+use Tempa\Console\Command\SubstituteCommand;
 use Symfony\Component\Console\Application;
 
 if (is_dir($vendor = __DIR__ . '/../vendor')) {
@@ -25,5 +25,5 @@ if (!class_exists('Symfony\Component\Console\Application')) {
 
 $app = new Application();
 $app->add(new ScanCommand());
-$app->add(new ParseCommand());
+$app->add(new SubstituteCommand());
 $app->run();

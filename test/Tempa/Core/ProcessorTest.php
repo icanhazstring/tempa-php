@@ -125,7 +125,21 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Trying to replace a substiture should raise an exception
+     * Trying to replace a substiture with empty mapping should raise an exception
+     *
+     * @expectedException \Tempa\Core\Exception\SubstituteException
+     */
+    public function testSubstituteEmptyMapping_ShouldThrowException()
+    {
+        $processor = new Processor(self::$defaultOptions);
+        $fileObject = new \SplFileObject('vfs://match.php.dist');
+
+        $processor->substitute($fileObject, []);
+    }
+
+    /**
+     * Trying to replace a substiture with missing mapping should raise an exception
+     *
      * @expectedException \Tempa\Core\Exception\SubstituteException
      */
     public function testSubstituteWithoutMatch_ShouldThrowException()
@@ -133,6 +147,6 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
 
-        $processor->substitute($fileObject, []);
+        $processor->substitute($fileObject, ['a' => 'b']);
     }
 }

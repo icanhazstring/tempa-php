@@ -60,6 +60,10 @@ class Processor
             return;
         }
 
+        if (empty($substitutionMap)) {
+            throw SubstituteException::emptyMapping();
+        }
+
         $scanResult = $this->scan($file);
 
         $targetPath = rtrim($file->getPathname(), '.' . $file->getExtension());

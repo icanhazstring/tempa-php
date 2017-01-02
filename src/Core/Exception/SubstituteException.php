@@ -17,4 +17,14 @@ class SubstituteException extends \Exception
     {
         return new self("Missing substitute mapping for {$name}");
     }
+
+    /**
+     * Create new exception if substitution map is empty.
+     *
+     * @return SubstituteException
+     */
+    public static function emptyMapping()
+    {
+        return new self('Substitution map is empty');
+    }
 }
