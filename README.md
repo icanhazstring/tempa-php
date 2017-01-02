@@ -28,24 +28,45 @@ Here is an example
 You can scan a directory or single file using the scan command.
 
 ```bash
-$ vendor/bin/tempa file:scan [--config|c CONFIG] [FILE|DIRECTORY]
+$ vendor/bin/tempa file:scan [--config|c [CONFIG]] [--] <FILE|DIRECTORY>
 ```
 
 You can deliver every other config you want. By default the script will take the `tempa.json` from the location you executed the script.
 
 ```bash
-$ vendor/bin/tempa file:scan --config tempa.json test/Demo
+$ vendor/bin/tempa file:scan --config=tempa.json test/Demo
 
-Scanning for template files in: /home/tempa-php/test/Demo
- 2/2 [============================] 100%
+Scanning for template files in: /home/ando/tempa-php/test/Demo
+==============================================================
 
-/home/tempa-php/test/Demo/Sub/test.php.dist
+ 2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+/home/ando/tempa-php/test/Demo/Sub/test.php.dist
+------------------------------------------------
+
 Line 3 : 'database' => '{$database}',
 Line 4 : 'username' => '{$user}'
 
-/home/tempa-php/test/Demo/test.php.dist
+/home/ando/tempa-php/test/Demo/test.php.dist
+--------------------------------------------
+
 Line 3 : 'placeholder' => '{$superAwesome}'
 ```
 
 ### Substitute
-TODO
+
+To replace stuff run the following:
+
+```bash
+$ vendor/bin/tempa file:scan [--config|c [CONFIG]] [--] <FILE|DIRECTORY> [<map>]... 
+```
+
+```bash
+$ vendor/bin/tempa file:substitute --config=test/Demo/tempa.json test/Demo/ database=localhost user=icanhazstring superAwesome=mega 
+
+Processing template files in: /home/ando/tempa-php/test/Demo
+============================================================
+
+ 2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+```

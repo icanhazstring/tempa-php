@@ -2,9 +2,9 @@
 
 namespace Tempa\Console\Command;
 
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Tempa\Core\Options;
 use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;
@@ -31,6 +31,8 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         $config = $input->getOption('config');
         $configPath = stream_resolve_include_path($config);
 
@@ -46,7 +48,7 @@ EOT
             throw new \InvalidArgumentException("Config not readable: {$configPath}");
         }
 
-        $output->writeln("<info>Scanning for template files in: {$scanPath}</info>");
+        $io->title("Scanning for template files in: {$scanPath}");
 
         $config = file_get_contents($configPath);
         $options = new Options(json_decode($config, true));
@@ -55,38 +57,37 @@ EOT
         /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
         $result = $iterator->iterate();
         $processor = new Processor($options);
-        $progress = new ProgressBar($output, count(iterator_to_array($result)));
 
         // Collect scan result
         $fileResults = [];
 
-        $progress->start();
+        $io->progressStart(count(iterator_to_array($result)));
 
         foreach ($result as $file) {
             $fileResults[] = $processor->scan(new \SplFileObject($file->getPathname()));
-            $progress->advance();
+            $io->progressAdvance();
         }
 
-        $progress->finish();
+        $io->progressFinish();
 
-        $this->writeResults($output, $fileResults);
+        $this->writeResults($io, $fileResults);
     }
 
     /**
-     * @param OutputInterface   $output
+     * @param SymfonyStyle      $io
      * @param ResultContainer[] $fileResults
      *
      * @return void
      */
-    protected function writeResults(OutputInterface $output, array $fileResults)
+    protected function writeResults(SymfonyStyle $io, array $fileResults)
     {
-        $output->write(PHP_EOL);
+        $io->newLine();
 
         foreach ($fileResults as $fileResult) {
-            $output->writeln(PHP_EOL . "<info>{$fileResult->getPathName()}</info>");
+            $io->section($fileResult->getPathName());
 
             foreach ($fileResult as $file) {
-                $output->writeln("Line {$file->lineNumber} : {$file->lineContent}");
+                $io->writeln("Line {$file->lineNumber} : {$file->lineContent}");
             }
         }
     }

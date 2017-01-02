@@ -71,7 +71,6 @@ EOT
         $fileErrors = [];
 
         foreach ($result as $file) {
-
             if (!isset($fileErrors[$file->getPathname()])) {
                 $fileErrors[$file->getPathname()] = [];
             }
@@ -88,7 +87,6 @@ EOT
         $io->progressFinish();
 
         foreach ($fileErrors as $file => $errors) {
-
             if (empty($errors)) {
                 continue;
             }
