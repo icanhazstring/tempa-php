@@ -56,7 +56,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testScanFileWithMatch_ShouldReturnResult()
     {
         $processor = new Processor(self::$defaultOptions);
-        $fileInfo = new \SplFileInfo('vfs://match.php.dist');
+        $fileInfo = new \SplFileObject('vfs://match.php.dist');
 
         $scanResult = $processor->scan($fileInfo);
 
@@ -77,7 +77,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testScanFileWithoutMatch_ShouldReturnEmptyResult()
     {
         $processor = new Processor(self::$defaultOptions);
-        $fileInfo = new \SplFileInfo('vfs://noMatch.php.dist');
+        $fileInfo = new \SplFileObject('vfs://noMatch.php.dist');
 
         $scanResult = $processor->scan($fileInfo);
 

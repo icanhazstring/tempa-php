@@ -71,7 +71,6 @@ EOT
         $progress->finish();
 
         $this->writeResults($output, $fileResults);
-
     }
 
     /**
@@ -90,7 +89,6 @@ EOT
             foreach ($fileResult as $file) {
                 $output->writeln("Line {$file->lineNumber} : {$file->lineContent}");
             }
-
         }
     }
 }

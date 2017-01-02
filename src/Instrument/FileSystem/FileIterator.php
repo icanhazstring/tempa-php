@@ -55,14 +55,11 @@ class FileIterator
         $fileEndings = $this->fileEndings;
 
         return function (\SplFileInfo $file) use ($rootDirectory, $fileEndings) {
-
             if (!in_array($file->getExtension(), $fileEndings)) {
                 return false;
             }
 
             return true;
-
         };
     }
-
 }

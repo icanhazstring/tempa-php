@@ -113,5 +113,4 @@ class ResultContainer implements \ArrayAccess, \Iterator, \Countable
     {
         return count($this->items);
     }
-
 }

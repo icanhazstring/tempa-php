@@ -65,7 +65,5 @@ class Processor
 
     public function substitute(ResultContainer $resultContainer)
     {
-
     }
-
 }

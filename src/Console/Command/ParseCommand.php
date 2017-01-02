@@ -28,5 +28,4 @@ EOT
     {
         $output->writeln('<info>Awesome it wurks!</info>');
     }
-
 }
