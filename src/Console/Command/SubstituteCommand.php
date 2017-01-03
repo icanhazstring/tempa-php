@@ -62,11 +62,17 @@ EOT
         $options = new Options(json_decode($config, true));
         $iterator = new FileIterator($rootPath, $options->fileExtensions);
 
-        /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
-        $result = $iterator->iterate();
+        if (is_dir($rootPath)) {
+            /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
+            $result = $iterator->iterate();
+            $io->progressStart(count(iterator_to_array($result)));
+        } else {
+            $result = [new \SplFileInfo($rootPath)];
+            $io->progressStart(1);
+        }
+
         $processor = new Processor($options);
 
-        $io->progressStart(count(iterator_to_array($result)));
         /** @var \SubstituteException[] $fileErrors */
         $fileErrors = [];
 

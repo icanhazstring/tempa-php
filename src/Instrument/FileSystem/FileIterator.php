@@ -21,13 +21,13 @@ class FileIterator
     /**
      * FileIterator constructor.
      *
-     * @param string $rootDirectory Path to root directory
-     * @param array  $fileEndings   File endings settings
+     * @param string $rootDirectory  Path to root directory
+     * @param array  $fileExtensions File endings settings
      */
-    public function __construct($rootDirectory, array $fileEndings)
+    public function __construct($rootDirectory, array $fileExtensions)
     {
         $this->rootDirectory = $rootDirectory;
-        $this->fileEndings = $fileEndings;
+        $this->fileEndings = $fileExtensions;
     }
 
     /**

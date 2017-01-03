@@ -54,14 +54,19 @@ EOT
         $options = new Options(json_decode($config, true));
         $iterator = new FileIterator($scanPath, $options->fileExtensions);
 
-        /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
-        $result = $iterator->iterate();
+        if (is_dir($scanPath)) {
+            /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
+            $result = $iterator->iterate();
+            $io->progressStart(count(iterator_to_array($result)));
+        } else {
+            $result = [new \SplFileInfo($scanPath)];
+            $io->progressStart(1);
+        }
+
         $processor = new Processor($options);
 
         // Collect scan result
         $fileResults = [];
-
-        $io->progressStart(count(iterator_to_array($result)));
 
         foreach ($result as $file) {
             $fileResults[] = $processor->scan(new \SplFileObject($file->getPathname()));
