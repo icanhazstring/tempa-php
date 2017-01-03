@@ -7,6 +7,8 @@ use Symfony\Component\Console\Application;
 
 if (is_dir($vendor = __DIR__ . '/../vendor')) {
     require $vendor . '/autoload.php';
+} elseif (is_dir($vendor = __DIR__ . '/../../..')) {
+    require $vendor . '/autoload.php';
 } else {
     die(
         'You must set up the project dependencies.' . PHP_EOL .
