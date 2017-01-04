@@ -31,6 +31,6 @@
         }
     },
     "scripts": {
-        "code-style": "phpcs --standard=PSR2 src/"
+        "code-style": "phpcs --standard=PSR2 src/ && phpcs --standard=PSR2 --ignore=test/Demo test/"
     }
 }

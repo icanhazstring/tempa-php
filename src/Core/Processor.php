@@ -100,7 +100,7 @@ class Processor
             $line = trim($file->fgets());
 
             if (preg_match($this->pattern, $line, $match)) {
-                $result[] = new Result([
+                $result[$match['name']] = new Result([
                     'name'        => $match['name'],
                     'lineNumber'  => $file->key(),
                     'lineContent' => $line

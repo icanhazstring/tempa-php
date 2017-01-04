@@ -34,7 +34,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      * Passing an empty directory to the FileIterator should
      * simply return an empty result.
      */
-    public function testEmptyDirectory_ShouldReturnEmptyResult()
+    public function testEmptyDirectoryShouldReturnEmptyResult()
     {
         $iterator = new FileIterator('vfs://', []);
         self::assertEmpty(iterator_to_array($iterator->iterate()));
@@ -43,7 +43,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Create a single file with property file ending
      */
-    public function testSingleFileWithProperFileEnding_ShouldReturnArrayWithCorrectPath()
+    public function testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath()
     {
         self::$fileSystem->get('/')->add('test.php.dist', new File());
 
@@ -62,9 +62,9 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      *
      * @param $previousResult
      *
-     * @depends testSingleFileWithProperFileEnding_ShouldReturnArrayWithCorrectPath
+     * @depends testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath
      */
-    public function testMultipleFilesRecursive_ShouldReturnArrayWithCorrectPaths($previousResult)
+    public function testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths($previousResult)
     {
         self::$fileSystem->get('/')->add('test2.php.skel', new File());
 
@@ -83,9 +83,9 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @param $previousResult
      *
-     * @depends testMultipleFilesRecursive_ShouldReturnArrayWithCorrectPaths
+     * @depends testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths
      */
-    public function testRecursiveFiles_ShouldReturnArrayWithCorrectPaths($previousResult)
+    public function testRecursiveFilesShouldReturnArrayWithCorrectPaths($previousResult)
     {
         $dir = new Directory(['test3.php.dist' => new File()]);
         self::$fileSystem->get('/')->add('sub', $dir);

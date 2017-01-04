@@ -26,6 +26,10 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         self::$fileSystem->get('/')->add('invalidFileEnding.php', new File('{$test}'));
         self::$fileSystem->get('/')->add('noMatch.php.dist', new File('{test}'));
         self::$fileSystem->get('/')->add('match.php.dist', new File('Awesome {$test}'));
+        self::$fileSystem->get('/')->add('matchDuplicate.php.dist', new File(
+            'Awesome {$test}' . PHP_EOL
+            . '{$test}'
+        ));
 
         self::$defaultOptions = new Options(['fileExtensions' => ['dist'], 'prefix' => '{$', 'suffix' => '}']);
     }
@@ -47,7 +51,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      * Passing an invalid file to the processor should
      * return null. So nothing should happen.
      */
-    public function testScanWithInvalidFileEnding_ShouldReturnNull()
+    public function testScanWithInvalidFileEndingShouldReturnNull()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileInfo = new \SplFileObject('vfs://invalidFileEnding.php');
@@ -61,7 +65,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      * Passing valid file and substitutions should return
      * a scan result with proper information about the file, substitution, position etc
      */
-    public function testScanFileWithMatch_ShouldReturnResult()
+    public function testScanFileWithMatchShouldReturnResult()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -71,18 +75,30 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         self::assertInstanceOf(ResultContainer::class, $scanResult);
         self::assertCount(1, $scanResult);
         self::assertEquals($fileObject->getPathname(), $scanResult->getPathName());
+        self::assertArrayHasKey('test', $scanResult);
 
-        $first = $scanResult[0];
+        $first = $scanResult['test'];
 
+        self::assertCount(1, $scanResult);
         self::assertEquals(0, $first->lineNumber);
         self::assertEquals('Awesome {$test}', $first->lineContent);
         self::assertEquals('test', $first->name);
     }
 
+    public function testScanFileWithMatchDuplicateShouldReturnResult()
+    {
+        $processor = new Processor(self::$defaultOptions);
+        $fileObject = new \SplFileObject('vfs://matchDuplicate.php.dist');
+
+        $scanResult = $processor->scan($fileObject);
+
+        self::assertCount(1, $scanResult);
+    }
+
     /**
      * Matched file without proper substitution markers should return empty result
      */
-    public function testScanFileWithoutMatch_ShouldReturnEmptyResult()
+    public function testScanFileWithoutMatchShouldReturnEmptyResult()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://noMatch.php.dist');
@@ -97,7 +113,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /**
      * Substitution should create a new file
      */
-    public function testSubstituteWithMatch_ShouldCreateNewFile()
+    public function testSubstituteWithMatchShouldCreateNewFile()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -110,9 +126,9 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testSubstituteWithMatch_ShouldCreateNewFile
+     * @depends testSubstituteWithMatchShouldCreateNewFile
      */
-    public function testSubstituteWithMatchAgain_ShouldOverwriteFile()
+    public function testSubstituteWithMatchAgainShouldOverwriteFile()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -129,7 +145,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Tempa\Core\Exception\SubstituteException
      */
-    public function testSubstituteEmptyMapping_ShouldThrowException()
+    public function testSubstituteEmptyMappingShouldThrowException()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -142,7 +158,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      *
      * @expectedException \Tempa\Core\Exception\SubstituteException
      */
-    public function testSubstituteWithoutMatch_ShouldThrowException()
+    public function testSubstituteWithoutMatchShouldThrowException()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
