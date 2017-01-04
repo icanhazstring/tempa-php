@@ -13,6 +13,14 @@ use Tempa\Core\Options;
 use Tempa\Core\Processor;
 use Tempa\Instrument\FileSystem\FileIterator;
 
+/**
+ * SubstituteCommand
+ *
+ * Command for execution substitute process
+ *
+ * @package Tempa\Console\Command
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class SubstituteCommand extends AbstractCommand
 {
 

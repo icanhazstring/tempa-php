@@ -2,6 +2,12 @@
 
 namespace Tempa\Core\Exception;
 
+/**
+ * Class SubstituteException
+ *
+ * @package Tempa\Core\Exception
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class SubstituteException extends \Exception
 {
 

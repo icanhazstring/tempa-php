@@ -2,6 +2,12 @@
 
 namespace Tempa\Console\Helper;
 
+/**
+ * Class ArgumentParser
+ *
+ * @package Tempa\Console\Helper
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class ArgumentParser
 {
 

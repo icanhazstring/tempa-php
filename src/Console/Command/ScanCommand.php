@@ -10,6 +10,14 @@ use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;
 use Tempa\Instrument\FileSystem\FileIterator;
 
+/**
+ * ScanCommand
+ *
+ * Command to execute scan process
+ *
+ * @package Tempa\Console\Command
+ * @author  icanhazstring <blubb0r05+github@gmail.com>
+ */
 class ScanCommand extends AbstractCommand
 {
 
