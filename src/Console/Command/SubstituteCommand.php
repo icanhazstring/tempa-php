@@ -20,6 +20,7 @@ class SubstituteCommand extends AbstractCommand
     {
         parent::configure();
 
+        $this->addOption('mapfile', 'f', InputOption::VALUE_OPTIONAL, '');
         $this->addArgument('map', InputOption::VALUE_OPTIONAL);
 
         $this->setName('file:substitute')
@@ -42,7 +43,14 @@ EOT
         $config = $input->getOption('config');
         $configPath = stream_resolve_include_path($config);
 
-        $map = ArgumentParser::parseMapping($input->getArgument('map') ?: []);
+        $mapFile = $input->getOption('mapfile');
+
+        if ($mapFile) {
+            $mapFilePath = stream_resolve_include_path($mapFile);
+            $map = ArgumentParser::parseFile($mapFilePath);
+        } else {
+            $map = ArgumentParser::parseMapping($input->getArgument('map') ?: []);
+        }
 
         $rootDirectory = $input->getArgument('dir');
         $rootPath = stream_resolve_include_path($rootDirectory);

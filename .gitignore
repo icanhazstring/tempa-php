@@ -7,4 +7,6 @@ test/Demo/**/*
 !test/Demo
 !test/Demo/Sub
 !test/Demo/tempa.json
+!test/Demo/maps
+!test/Demo/maps/*
 !test/Demo/**/*.dist
