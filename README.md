@@ -1,6 +1,6 @@
 # icanhazstring/tempa-php
 
-[![Build Status](https://api.travis-ci.org/icanhazstring/tempa-php.svg?branch=master)](https://api.travis-ci.org/icanhazstring/tempa-php)
+[![Build Status](https://api.travis-ci.org/icanhazstring/tempa-php.svg?branch=master)](https://travis-ci.org/icanhazstring/tempa-php)
 
 ## What for?
 You all came across some `*.dist` or `*.skel` files of some sort. This library can be used to replace every existing substitute in those files as well as simply list them.
