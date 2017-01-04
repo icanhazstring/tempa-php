@@ -28,16 +28,17 @@ Here is an example
 You can scan a directory or single file using the scan command.
 
 ```bash
-$ vendor/bin/tempa file:scan [--config|c [CONFIG]] [--] <FILE|DIRECTORY>
+$ vendor/bin/tempa file:scan <dir> [<config>]
 ```
 
 You can deliver every other config you want. By default the script will take the `tempa.json` from the location you executed the script.
 
 ```bash
-$ vendor/bin/tempa file:scan --config=tempa.json test/Demo
+$ vendor/bin/tempa file:scan test/Demo
+$ vendor/bin/tempa file:scan test/Demo test/Demo/tempa.json
 
-Scanning for template files in: /home/ando/tempa-php/test/Demo
-==============================================================
+Scanning for template files in: /home/icanhazstring/tempa-php/test/Demo
+=======================================================================
 
  2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
 
@@ -59,14 +60,37 @@ Line 3 : 'placeholder' => '{$superAwesome}'
 To replace stuff run the following:
 
 ```bash
-$ vendor/bin/tempa file:scan [--config|c [CONFIG]] [--] <FILE|DIRECTORY> [<map>]... 
+$ vendor/bin/tempa file:substitute [-f|--mapfile [MAPFILE]] [--] <dir> [<config>] [<map>]... 
 ```
 
 ```bash
-$ vendor/bin/tempa file:substitute --config=test/Demo/tempa.json test/Demo/ database=localhost user=icanhazstring superAwesome=mega 
+$ vendor/bin/tempa file:substitute test/Demo/
+$ vendor/bin/tempa file:substitute test/Demo/ --mapfile=test/Demo/maps/map.[json|php]
+$ vendor/bin/tempa file:substitute test/Demo/ test/Demo/tempa.json database=localhost user=icanhazstring superAwesome=mega 
 
-Processing template files in: /home/ando/tempa-php/test/Demo
-============================================================
+Processing template files in: /home/icanhazstring/tempa-php/test/Demo
+=====================================================================
 
  2/2 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+```
+
+### Interactive
+
+You can replace every with an interactive mode:
+
+```bash
+$ vendor/bin/tempa file:interactive test/Demo
+$ vendor/bin/tempa file:interactive test/Demo test/Demo/tempa.json
+
+
+Interactive substitution for template files in: /home/icanhazstring/tempa-php/test/Demo
+=======================================================================================
+
+Found 3 substitutes
+-------------------
+
+database:
+>
+
+...
 ```
