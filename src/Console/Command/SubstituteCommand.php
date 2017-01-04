@@ -48,7 +48,7 @@ EOT
     {
         $io = new SymfonyStyle($input, $output);
 
-        $config = $input->getOption('config');
+        $config = $input->getArgument('config');
         $configPath = stream_resolve_include_path($config);
 
         $mapFile = $input->getOption('mapfile');
@@ -74,8 +74,7 @@ EOT
 
         $io->title("Processing template files in: {$rootPath}");
 
-        $config = file_get_contents($configPath);
-        $options = new Options(json_decode($config, true));
+        $options = new Options(json_decode(file_get_contents($configPath), true));
         $iterator = new FileIterator($rootPath, $options->fileExtensions);
 
         if (is_dir($rootPath)) {

@@ -26,6 +26,14 @@ class ResultContainer implements \ArrayAccess, \Iterator, \Countable
     }
 
     /**
+     * @return Result[]
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
      * @return string
      */
     public function getPathName()

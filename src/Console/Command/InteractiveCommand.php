@@ -10,32 +10,25 @@ use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;
 use Tempa\Instrument\FileSystem\FileIterator;
 
-/**
- * ScanCommand
- *
- * Command to execute scan process
- *
- * @package Tempa\Console\Command
- * @author  icanhazstring <blubb0r05+github@gmail.com>
- */
-class ScanCommand extends AbstractCommand
+class InteractiveCommand extends AbstractCommand
 {
 
     protected function configure()
     {
         parent::configure();
-        $this->setName('file:scan')
-             ->setDescription('Scan source directory for templates files')
+
+        $this->setName('file:interactive')
+             ->setDescription('Scan source directory for templates files and interactivly replace them.')
              ->setHelp(
                  <<<EOT
 Iterate a given directory searching for template files.
-This will list all placeholders and template files.
+This will replace found placeholders with a set up value.
 EOT
              );
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -56,7 +49,7 @@ EOT
             throw new \InvalidArgumentException("Config not readable: {$configPath}");
         }
 
-        $io->title("Scanning for template files in: {$scanPath}");
+        $io->title("Interactive substitution for template files in: {$scanPath}");
 
         $options = new Options(json_decode(file_get_contents($configPath), true));
         $iterator = new FileIterator($scanPath, $options->fileExtensions);
@@ -64,43 +57,36 @@ EOT
         if (is_dir($scanPath)) {
             /** @var \SplFileInfo[]|\CallbackFilterIterator $result */
             $result = $iterator->iterate();
-            $io->progressStart(count(iterator_to_array($result)));
         } else {
             $result = [new \SplFileInfo($scanPath)];
-            $io->progressStart(1);
         }
 
         $processor = new Processor($options);
-
-        // Collect scan result
-        $fileResults = [];
+        $scanResult = [];
+        $map = [];
 
         foreach ($result as $file) {
-            $fileResults[] = $processor->scan(new \SplFileObject($file->getPathname()));
+            $scanResult = array_merge(
+                $scanResult,
+                $processor->scan(new \SplFileObject($file->getPathname()))->getItems()
+            );
+        }
+
+        $io->section('Found ' . count($scanResult) . ' substitutes');
+
+        foreach ($scanResult as $substitute) {
+            $map[$substitute->name] = $io->ask($substitute->name);
+        }
+
+        $io->section('Filling out substitutes');
+
+        $io->progressStart(count($scanResult));
+
+        foreach ($result as $file) {
+            $processor->substitute(new \SplFileObject($file->getPathname()), $map);
             $io->progressAdvance();
         }
 
         $io->progressFinish();
-
-        $this->writeResults($io, $fileResults);
-    }
-
-    /**
-     * @param SymfonyStyle      $io
-     * @param ResultContainer[] $fileResults
-     *
-     * @return void
-     */
-    protected function writeResults(SymfonyStyle $io, array $fileResults)
-    {
-        $io->newLine();
-
-        foreach ($fileResults as $fileResult) {
-            $io->section($fileResult->getPathName());
-
-            foreach ($fileResult as $file) {
-                $io->writeln("Line {$file->lineNumber} : {$file->lineContent}");
-            }
-        }
     }
 }

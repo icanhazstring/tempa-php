@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use Tempa\Console\Command\InteractiveCommand;
 use Tempa\Console\Command\ScanCommand;
 use Tempa\Console\Command\SubstituteCommand;
 use Symfony\Component\Console\Application;
@@ -28,4 +29,5 @@ if (!class_exists('Symfony\Component\Console\Application')) {
 $app = new Application();
 $app->add(new ScanCommand());
 $app->add(new SubstituteCommand());
+$app->add(new InteractiveCommand());
 $app->run();

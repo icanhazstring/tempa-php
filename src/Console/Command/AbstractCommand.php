@@ -20,7 +20,7 @@ abstract class AbstractCommand extends Command
      */
     protected function configure()
     {
-        $this->addOption('config', 'c', InputOption::VALUE_OPTIONAL, 'Config json with options required for parsing');
         $this->addArgument('dir', InputArgument::REQUIRED, 'Path to directory to be parsed');
+        $this->addArgument('config', InputArgument::OPTIONAL, 'Config json with options required for parsing');
     }
 }
