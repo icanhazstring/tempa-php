@@ -1,4 +1,4 @@
-# icanhazsztring/tempa-php
+# icanhazstring/tempa-php
 
 [![Build Status](https://api.travis-ci.org/icanhazstring/tempa-php.svg?branch=master)](https://api.travis-ci.org/icanhazstring/tempa-php)
 
