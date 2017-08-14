@@ -27,6 +27,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         self::$fileSystem->get('/')->add('invalidFileEnding.php', new File('{$test}'));
         self::$fileSystem->get('/')->add('noMatch.php.dist', new File('{test}'));
+        self::$fileSystem->get('/')->add('doubleTokenMatch.php.dist', new File('{$test} {$test2}'));
         self::$fileSystem->get('/')->add('match.php.dist', new File('Awesome {$test}'));
         self::$fileSystem->get('/')->add('matchDuplicate.php.dist', new File(
             'Awesome {$test}' . PHP_EOL
@@ -166,5 +167,17 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $fileObject = new \SplFileObject('vfs://match.php.dist');
 
         $processor->substitute($fileObject, ['a' => 'b']);
+    }
+
+    public function testMultipleTokensOnSingleLine()
+    {
+        $processor = new Processor(self::$defaultOptions);
+        $fileObject = new \SplFileObject('vfs://doubleTokenMatch.php.dist');
+
+        $processor->substitute($fileObject, ['test' => 'Hello', 'test2' => 'World']);
+
+        $target = self::$fileSystem->get('/doubleTokenMatch.php');
+        self::assertNotNull($target);
+        self::assertEquals('Hello World', $target->getContent());
     }
 }
