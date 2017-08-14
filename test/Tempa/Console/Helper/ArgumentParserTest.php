@@ -1,7 +1,8 @@
 <?php
 
-namespace Tempa\Console\Helper;
+namespace Tempa\Test\Console\Helper;
 
+use Tempa\Console\Helper\ArgumentParser;
 use Vfs\FileSystem;
 use Vfs\Node\File;
 

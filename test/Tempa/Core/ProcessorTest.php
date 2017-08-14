@@ -1,7 +1,9 @@
 <?php
 
-namespace Tempa\Core;
+namespace Tempa\Test\Core;
 
+use Tempa\Core\Options;
+use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;
 use Vfs\FileSystem;
 use Vfs\Node\File;

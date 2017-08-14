@@ -27,7 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tempa\\": "test/Tempa/"
+            "Tempa\\Test\\": "test/Tempa/"
         }
     },
     "scripts": {

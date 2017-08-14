@@ -1,8 +1,8 @@
 <?php
 
-namespace Tempa\Instrument\FileSystem;
+namespace Tempa\Test\Instrument\FileSystem;
 
-use Tempa\Core\Options;
+use Tempa\Instrument\FileSystem\FileIterator;
 use Vfs\FileSystem;
 use Vfs\Node\Directory;
 use Vfs\Node\File;
@@ -63,6 +63,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      * @param $previousResult
      *
      * @depends testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath
+     * @return array
      */
     public function testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths($previousResult)
     {
