@@ -2,12 +2,14 @@
 
 namespace Tempa\Test\Console\Helper;
 
+use PHPUnit\Framework\TestCase;
 use Tempa\Console\Helper\ArgumentParser;
 use Vfs\FileSystem;
 use Vfs\Node\File;
 
-class ArgumentParserTest extends \PHPUnit_Framework_TestCase
+class ArgumentParserTest extends TestCase
 {
+    /** @var FileSystem */
     protected static $fileSystem;
     /**
      * @inheritDoc
@@ -50,19 +52,15 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
         self::assertEmpty($result);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testFileMappingWithUnreadableFileShouldRaiseAnException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         ArgumentParser::parseFile('vfs://nope.json');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testFileMappingWithWrongExtensionsShouldRaiseAnException()
     {
+        $this->expectException(\InvalidArgumentException::class);
         ArgumentParser::parseFile('vfs://map.fubar');
     }
 
