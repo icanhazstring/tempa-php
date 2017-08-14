@@ -31,6 +31,7 @@
         }
     },
     "scripts": {
-        "code-style": "phpcs --standard=PSR2 src/ && phpcs --standard=PSR2 --ignore=test/Demo test/"
+        "test": "vendor/bin/phpunit",
+        "cs": "phpcs --standard=PSR2 src/ && phpcs --standard=PSR2 --ignore=test/Demo test/"
     }
 }

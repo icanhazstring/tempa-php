@@ -19,5 +19,5 @@ before_script:
   - mkdir -p build/logs
 
 script:
-  - composer code-style
-  - vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --coverage-text
+  - composer test -- --coverage-clover=build/logs/clover.xml --coverage-text
+  - composer cs
