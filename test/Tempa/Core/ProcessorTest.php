@@ -2,6 +2,8 @@
 
 namespace Tempa\Test\Core;
 
+use PHPUnit\Framework\TestCase;
+use Tempa\Core\Exception\SubstituteException;
 use Tempa\Core\Options;
 use Tempa\Core\Processor;
 use Tempa\Core\Scan\ResultContainer;
@@ -14,7 +16,7 @@ use Vfs\Node\File;
  * @package Tempa\Core
  * @author  icanhazstring <blubb0r05+github@gmail.com>
  */
-class ProcessorTest extends \PHPUnit_Framework_TestCase
+class ProcessorTest extends TestCase
 {
     /** @var FileSystem */
     protected static $fileSystem;
@@ -145,27 +147,25 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Trying to replace a substiture with empty mapping should raise an exception
-     *
-     * @expectedException \Tempa\Core\Exception\SubstituteException
      */
     public function testSubstituteEmptyMappingShouldThrowException()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
 
+        $this->expectException(SubstituteException::class);
         $processor->substitute($fileObject, []);
     }
 
     /**
      * Trying to replace a substiture with missing mapping should raise an exception
-     *
-     * @expectedException \Tempa\Core\Exception\SubstituteException
      */
     public function testSubstituteWithoutMatchShouldThrowException()
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
 
+        $this->expectException(SubstituteException::class);
         $processor->substitute($fileObject, ['a' => 'b']);
     }
 

@@ -2,6 +2,7 @@
 
 namespace Tempa\Test\Instrument\FileSystem;
 
+use PHPUnit\Framework\TestCase;
 use Tempa\Instrument\FileSystem\FileIterator;
 use Vfs\FileSystem;
 use Vfs\Node\Directory;
@@ -13,7 +14,7 @@ use Vfs\Node\File;
  * @package Tempa\Instrument\FileSystem
  * @author  icanhazstring <blubb0r05+github@gmail.com>
  */
-class FileIteratorTest extends \PHPUnit_Framework_TestCase
+class FileIteratorTest extends TestCase
 {
 
     /** @var FileSystem */
