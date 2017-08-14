@@ -82,11 +82,9 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $previousResult
-     *
      * @depends testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths
      */
-    public function testRecursiveFilesShouldReturnArrayWithCorrectPaths($previousResult)
+    public function testRecursiveFilesShouldReturnArrayWithCorrectPaths()
     {
         $dir = new Directory(['test3.php.dist' => new File()]);
         self::$fileSystem->get('/')->add('sub', $dir);

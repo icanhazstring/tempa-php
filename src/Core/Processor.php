@@ -99,12 +99,14 @@ class Processor
         while (!$file->eof()) {
             $line = trim($file->fgets());
 
-            if (preg_match($this->pattern, $line, $match)) {
-                $result[$match['name']] = new Result([
-                    'name'        => $match['name'],
-                    'lineNumber'  => $file->key(),
-                    'lineContent' => $line
-                ]);
+            if (preg_match_all($this->pattern, $line, $matches)) {
+                foreach ($matches['name'] as $match) {
+                    $result[$match] = new Result([
+                        'name'        => $match,
+                        'lineNumber'  => $file->key(),
+                        'lineContent' => $line
+                    ]);
+                }
             }
         }
 
