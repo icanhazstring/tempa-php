@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": "~7.1",
-        "symfony/console": "^2.8|^3.2"
+        "symfony/console": "^2.8|^3.2|^4.0"
     },
     "require-dev": {
         "adlawson/vfs": "^0.12.1",
