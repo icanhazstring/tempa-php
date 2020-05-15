@@ -88,5 +88,7 @@ EOT
         }
 
         $io->progressFinish();
+        
+        return 0;
     }
 }

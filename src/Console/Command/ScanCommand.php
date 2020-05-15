@@ -83,6 +83,8 @@ EOT
         $io->progressFinish();
 
         $this->writeResults($io, $fileResults);
+        
+        return 0;
     }
 
     /**

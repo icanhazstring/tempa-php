@@ -118,5 +118,7 @@ EOT
                 $io->note($error->getMessage());
             }
         }
+        
+        return 0;
     }
 }
