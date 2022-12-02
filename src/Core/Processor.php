@@ -95,6 +95,7 @@ class Processor
         }
 
         $result = new ResultContainer($file->getPathname());
+        $lineNumber = 0;
 
         while (!$file->eof()) {
             $line = trim($file->fgets());
@@ -103,7 +104,7 @@ class Processor
                 foreach ($matches['name'] as $match) {
                     $result[$match] = new Result([
                         'name'        => $match,
-                        'lineNumber'  => $file->key(),
+                        'lineNumber'  => $lineNumber++,
                         'lineContent' => $line
                     ]);
                 }
