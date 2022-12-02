@@ -14,7 +14,7 @@ class ArgumentParserTest extends TestCase
     /**
      * @inheritDoc
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fileSystem = FileSystem::factory('vfs://');
         self::$fileSystem->mount();
@@ -27,7 +27,7 @@ class ArgumentParserTest extends TestCase
     /**
      * @inheritDoc
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$fileSystem->unmount();
     }
