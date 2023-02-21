@@ -20,13 +20,13 @@ class FileIteratorTest extends TestCase
     /** @var FileSystem */
     protected static $fileSystem;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$fileSystem = FileSystem::factory('vfs://');
         self::$fileSystem->mount();
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$fileSystem->unmount();
     }
