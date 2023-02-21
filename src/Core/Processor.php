@@ -56,7 +56,7 @@ class Processor
      */
     public function substitute(\SplFileObject $file, array $substitutionMap)
     {
-        if (!in_array($file->getExtension(), $this->options->fileExtensions)) {
+        if (!in_array($file->getExtension(), $this->options->fileExtensions, true)) {
             return;
         }
 
@@ -90,7 +90,7 @@ class Processor
      */
     public function scan(\SplFileObject $file)
     {
-        if (!in_array($file->getExtension(), $this->options->fileExtensions)) {
+        if (!in_array($file->getExtension(), $this->options->fileExtensions, true)) {
             return null;
         }
 

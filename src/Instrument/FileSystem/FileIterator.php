@@ -15,8 +15,8 @@ use Tempa\Core\Options;
  */
 class FileIterator
 {
-    private $rootDirectory;
-    private $fileEndings;
+    private string $rootDirectory;
+    private array $fileEndings;
 
     /**
      * FileIterator constructor.
@@ -24,7 +24,7 @@ class FileIterator
      * @param string $rootDirectory  Path to root directory
      * @param array  $fileExtensions File endings settings
      */
-    public function __construct($rootDirectory, array $fileExtensions)
+    public function __construct(string $rootDirectory, array $fileExtensions)
     {
         $this->rootDirectory = $rootDirectory;
         $this->fileEndings = $fileExtensions;
@@ -32,10 +32,8 @@ class FileIterator
 
     /**
      * Walk previous set up root directory
-     *
-     * @return \CallbackFilterIterator
      */
-    public function iterate()
+    public function iterate(): \CallbackFilterIterator
     {
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
@@ -49,13 +47,12 @@ class FileIterator
         return new \CallbackFilterIterator($iterator, $callback);
     }
 
-    public function getFilter()
+    public function getFilter(): callable
     {
-        $rootDirectory = $this->rootDirectory;
         $fileEndings = $this->fileEndings;
 
-        return function (\SplFileInfo $file) use ($rootDirectory, $fileEndings) {
-            if (!in_array($file->getExtension(), $fileEndings)) {
+        return static function (\SplFileInfo $file) use ($fileEndings) {
+            if (!in_array($file->getExtension(), $fileEndings, true)) {
                 return false;
             }
 

@@ -11,10 +11,10 @@ namespace Tempa\Console\Helper;
 class ArgumentParser
 {
 
-    const FILE_JSON = 'json';
-    const FILE_PHP = 'php';
+    private const FILE_JSON = 'json';
+    private const FILE_PHP = 'php';
 
-    public static $supportedExtensions = [
+    public static array $supportedExtensions = [
         self::FILE_JSON,
         self::FILE_PHP
     ];
@@ -27,7 +27,7 @@ class ArgumentParser
      *
      * @return array
      */
-    public static function parseMapping(array $input)
+    public static function parseMapping(array $input): array
     {
         $result = [];
 
@@ -52,16 +52,19 @@ class ArgumentParser
      *
      * @return array
      */
-    public static function parseFile($filePath)
+    public static function parseFile($filePath): array
     {
         if (!is_readable($filePath)) {
             throw new \InvalidArgumentException("Mapping file not readable {$filePath}");
         }
 
         $fileInfo = new \SplFileInfo($filePath);
-        if (!in_array($fileInfo->getExtension(), self::$supportedExtensions)) {
+        if (!in_array($fileInfo->getExtension(), self::$supportedExtensions, true)) {
             throw new \InvalidArgumentException(
-                'Mapping file not amongst the valid extensions ' . json_encode(self::$supportedExtensions)
+                'Mapping file not amongst the valid extensions ' . json_encode(
+                    self::$supportedExtensions,
+                    JSON_THROW_ON_ERROR
+                )
             );
         }
 
@@ -69,7 +72,7 @@ class ArgumentParser
 
         switch ($fileInfo->getExtension()) {
             case 'json':
-                $map = json_decode(file_get_contents($filePath), true);
+                $map = json_decode(file_get_contents($filePath), true, 512, JSON_THROW_ON_ERROR);
                 break;
 
             case 'php':

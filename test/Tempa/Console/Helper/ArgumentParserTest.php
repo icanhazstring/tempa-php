@@ -9,8 +9,7 @@ use Vfs\Node\File;
 
 class ArgumentParserTest extends TestCase
 {
-    /** @var FileSystem */
-    protected static $fileSystem;
+    protected static FileSystem $fileSystem;
     /**
      * @inheritDoc
      */
@@ -32,12 +31,12 @@ class ArgumentParserTest extends TestCase
         self::$fileSystem->unmount();
     }
 
-    public function testEmptyInputShouldReturnEmptyResult()
+    public function testEmptyInputShouldReturnEmptyResult(): void
     {
         self::assertEmpty(ArgumentParser::parseMapping([]));
     }
 
-    public function testValidMappingShouldReturnKeyValueMap()
+    public function testValidMappingShouldReturnKeyValueMap(): void
     {
         $result = ArgumentParser::parseMapping(['test=value']);
 
@@ -45,32 +44,32 @@ class ArgumentParserTest extends TestCase
         self::assertEquals('value', $result['test']);
     }
 
-    public function testInvalidMappingShouldReturnEmptyResult()
+    public function testInvalidMappingShouldReturnEmptyResult(): void
     {
         $result = ArgumentParser::parseMapping(['awesomeTest']);
 
         self::assertEmpty($result);
     }
 
-    public function testFileMappingWithUnreadableFileShouldRaiseAnException()
+    public function testFileMappingWithUnreadableFileShouldRaiseAnException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         ArgumentParser::parseFile('vfs://nope.json');
     }
 
-    public function testFileMappingWithWrongExtensionsShouldRaiseAnException()
+    public function testFileMappingWithWrongExtensionsShouldRaiseAnException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         ArgumentParser::parseFile('vfs://map.fubar');
     }
 
-    public function testJsonFileMappingShouldReturnProperResult()
+    public function testJsonFileMappingShouldReturnProperResult(): void
     {
         $result = ArgumentParser::parseFile('vfs://map.json');
         self::assertSame(['test' => 'map.json'], $result);
     }
 
-    public function testPhpFileMappingShouldReturnProperResult()
+    public function testPhpFileMappingShouldReturnProperResult(): void
     {
         $result = ArgumentParser::parseFile('vfs://map.php');
         self::assertSame(['test' => 'map.php'], $result);

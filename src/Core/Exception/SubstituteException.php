@@ -19,7 +19,7 @@ class SubstituteException extends \Exception
      *
      * @return SubstituteException
      */
-    public static function missingSubstituteMapping($name)
+    public static function missingSubstituteMapping($name): SubstituteException
     {
         return new self("Missing substitute mapping for {$name}");
     }
@@ -29,7 +29,7 @@ class SubstituteException extends \Exception
      *
      * @return SubstituteException
      */
-    public static function emptyMapping()
+    public static function emptyMapping(): SubstituteException
     {
         return new self('Substitution map is empty');
     }

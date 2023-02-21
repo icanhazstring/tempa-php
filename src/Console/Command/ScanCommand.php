@@ -2,6 +2,7 @@
 
 namespace Tempa\Console\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -21,7 +22,7 @@ use Tempa\Instrument\FileSystem\FileIterator;
 class ScanCommand extends AbstractCommand
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->setName('file:scan')
@@ -34,10 +35,7 @@ EOT
              );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -49,7 +47,7 @@ EOT
 
         // If config is empty, try reading it from current execution path
         if ($config === null) {
-            $configPath = $configPath . DIRECTORY_SEPARATOR . 'tempa.json';
+            $configPath .= DIRECTORY_SEPARATOR . 'tempa.json';
         }
 
         if (!is_readable($configPath)) {
@@ -83,8 +81,8 @@ EOT
         $io->progressFinish();
 
         $this->writeResults($io, $fileResults);
-        
-        return 0;
+
+        return Command::SUCCESS;
     }
 
     /**
@@ -93,7 +91,7 @@ EOT
      *
      * @return void
      */
-    protected function writeResults(SymfonyStyle $io, array $fileResults)
+    protected function writeResults(SymfonyStyle $io, array $fileResults): void
     {
         $io->newLine();
 

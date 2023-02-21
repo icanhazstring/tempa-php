@@ -2,6 +2,7 @@
 
 namespace Tempa\Console\Command;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,7 +25,7 @@ use Tempa\Instrument\FileSystem\FileIterator;
 class SubstituteCommand extends AbstractCommand
 {
 
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -41,10 +42,7 @@ EOT
              );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -65,7 +63,7 @@ EOT
 
         // If config is empty, try reading it from current execution path
         if ($config === null) {
-            $configPath = $configPath . DIRECTORY_SEPARATOR . 'tempa.json';
+            $configPath .= DIRECTORY_SEPARATOR . 'tempa.json';
         }
 
         if (!is_readable($configPath)) {
@@ -88,7 +86,7 @@ EOT
 
         $processor = new Processor($options);
 
-        /** @var \SubstituteException[] $fileErrors */
+        /** @var SubstituteException[] $fileErrors */
         $fileErrors = [];
 
         foreach ($result as $file) {
@@ -117,8 +115,10 @@ EOT
             foreach ($errors as $error) {
                 $io->note($error->getMessage());
             }
+
+            return Command::FAILURE;
         }
-        
-        return 0;
+
+        return Command::SUCCESS;
     }
 }

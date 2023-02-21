@@ -18,7 +18,7 @@ abstract class AbstractCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('dir', InputArgument::REQUIRED, 'Path to directory to be parsed');
         $this->addArgument('config', InputArgument::OPTIONAL, 'Config json with options required for parsing');

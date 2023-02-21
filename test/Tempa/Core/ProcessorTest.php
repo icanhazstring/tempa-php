@@ -18,9 +18,8 @@ use Vfs\Node\File;
  */
 class ProcessorTest extends TestCase
 {
-    /** @var FileSystem */
-    protected static $fileSystem;
-    protected static $defaultOptions;
+    protected static FileSystem $fileSystem;
+    protected static Options $defaultOptions;
 
     public static function setUpBeforeClass(): void
     {
@@ -44,7 +43,7 @@ class ProcessorTest extends TestCase
         self::$fileSystem->unmount();
     }
 
-    public function testBuildPattern()
+    public function testBuildPattern(): void
     {
         $processor = new Processor(self::$defaultOptions);
 
@@ -56,7 +55,7 @@ class ProcessorTest extends TestCase
      * Passing an invalid file to the processor should
      * return null. So nothing should happen.
      */
-    public function testScanWithInvalidFileEndingShouldReturnNull()
+    public function testScanWithInvalidFileEndingShouldReturnNull(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileInfo = new \SplFileObject('vfs://invalidFileEnding.php');
@@ -70,7 +69,7 @@ class ProcessorTest extends TestCase
      * Passing valid file and substitutions should return
      * a scan result with proper information about the file, substitution, position etc
      */
-    public function testScanFileWithMatchShouldReturnResult()
+    public function testScanFileWithMatchShouldReturnResult(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -90,7 +89,7 @@ class ProcessorTest extends TestCase
         self::assertEquals('test', $first->name);
     }
 
-    public function testScanFileWithMatchDuplicateShouldReturnResult()
+    public function testScanFileWithMatchDuplicateShouldReturnResult(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://matchDuplicate.php.dist');
@@ -103,7 +102,7 @@ class ProcessorTest extends TestCase
     /**
      * Matched file without proper substitution markers should return empty result
      */
-    public function testScanFileWithoutMatchShouldReturnEmptyResult()
+    public function testScanFileWithoutMatchShouldReturnEmptyResult(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://noMatch.php.dist');
@@ -118,7 +117,7 @@ class ProcessorTest extends TestCase
     /**
      * Substitution should create a new file
      */
-    public function testSubstituteWithMatchShouldCreateNewFile()
+    public function testSubstituteWithMatchShouldCreateNewFile(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -133,7 +132,7 @@ class ProcessorTest extends TestCase
     /**
      * @depends testSubstituteWithMatchShouldCreateNewFile
      */
-    public function testSubstituteWithMatchAgainShouldOverwriteFile()
+    public function testSubstituteWithMatchAgainShouldOverwriteFile(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -148,7 +147,7 @@ class ProcessorTest extends TestCase
     /**
      * Trying to replace a substiture with empty mapping should raise an exception
      */
-    public function testSubstituteEmptyMappingShouldThrowException()
+    public function testSubstituteEmptyMappingShouldThrowException(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -160,7 +159,7 @@ class ProcessorTest extends TestCase
     /**
      * Trying to replace a substiture with missing mapping should raise an exception
      */
-    public function testSubstituteWithoutMatchShouldThrowException()
+    public function testSubstituteWithoutMatchShouldThrowException(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://match.php.dist');
@@ -169,7 +168,7 @@ class ProcessorTest extends TestCase
         $processor->substitute($fileObject, ['a' => 'b']);
     }
 
-    public function testMultipleTokensOnSingleLine()
+    public function testMultipleTokensOnSingleLine(): void
     {
         $processor = new Processor(self::$defaultOptions);
         $fileObject = new \SplFileObject('vfs://doubleTokenMatch.php.dist');

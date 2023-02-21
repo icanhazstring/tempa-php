@@ -2,25 +2,30 @@
 
 namespace Tempa\Core\Scan;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use ReturnTypeWillChange;
+
 /**
  * Class ScanResult
  *
  * @package Tempa\Core\Processor
  * @author  Andreas Frömer <andreas.froemer@check24.de>
  */
-class ResultContainer implements \ArrayAccess, \Iterator, \Countable
+class ResultContainer implements ArrayAccess, Iterator, Countable
 {
 
     /** @var Result[] */
-    private $items = [];
-    private $pathName;
+    private array $items = [];
+    private string $pathName;
 
     /**
      * ResultContainer constructor.
      *
      * @param string $pathName Path to file this result belongs to
      */
-    public function __construct($pathName)
+    public function __construct(string $pathName)
     {
         $this->pathName = $pathName;
     }
@@ -28,96 +33,67 @@ class ResultContainer implements \ArrayAccess, \Iterator, \Countable
     /**
      * @return Result[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    /**
-     * @return string
-     */
-    public function getPathName()
+    public function getPathName(): string
     {
         return $this->pathName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ReturnTypeWillChange]
     public function current()
     {
         return current($this->items);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ReturnTypeWillChange]
     public function next()
     {
         return next($this->items);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ReturnTypeWillChange]
     public function key()
     {
         return key($this->items);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->items) !== null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ReturnTypeWillChange]
     public function rewind()
     {
         return reset($this->items);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->items[$offset]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetGet($offset)
+    public function offsetGet($offset): Result
     {
         return $this->items[$offset];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $offset = $offset ?: count($this->items);
         $this->items[$offset] = $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->items[$offset]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }

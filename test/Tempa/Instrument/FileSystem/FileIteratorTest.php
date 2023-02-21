@@ -17,8 +17,7 @@ use Vfs\Node\File;
 class FileIteratorTest extends TestCase
 {
 
-    /** @var FileSystem */
-    protected static $fileSystem;
+    protected static FileSystem $fileSystem;
 
     public static function setUpBeforeClass(): void
     {
@@ -35,7 +34,7 @@ class FileIteratorTest extends TestCase
      * Passing an empty directory to the FileIterator should
      * simply return an empty result.
      */
-    public function testEmptyDirectoryShouldReturnEmptyResult()
+    public function testEmptyDirectoryShouldReturnEmptyResult(): void
     {
         $iterator = new FileIterator('vfs://', []);
         self::assertEmpty(iterator_to_array($iterator->iterate()));
@@ -44,7 +43,7 @@ class FileIteratorTest extends TestCase
     /**
      * Create a single file with property file ending
      */
-    public function testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath()
+    public function testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath(): string
     {
         self::$fileSystem->get('/')->add('test.php.dist', new File());
 
@@ -66,7 +65,7 @@ class FileIteratorTest extends TestCase
      * @depends testSingleFileWithProperFileEndingShouldReturnArrayWithCorrectPath
      * @return array
      */
-    public function testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths($previousResult)
+    public function testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths($previousResult): array
     {
         self::$fileSystem->get('/')->add('test2.php.skel', new File());
 
@@ -85,7 +84,7 @@ class FileIteratorTest extends TestCase
     /**
      * @depends testMultipleFilesRecursiveShouldReturnArrayWithCorrectPaths
      */
-    public function testRecursiveFilesShouldReturnArrayWithCorrectPaths()
+    public function testRecursiveFilesShouldReturnArrayWithCorrectPaths(): void
     {
         $dir = new Directory(['test3.php.dist' => new File()]);
         self::$fileSystem->get('/')->add('sub', $dir);
