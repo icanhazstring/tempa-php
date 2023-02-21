@@ -2,6 +2,8 @@
 composer.phar
 vendor/
 
+.phpunit.result.cache
+
 # Demo
 test/Demo/**/*
 !test/Demo
